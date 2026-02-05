@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Ankita & Deb ❤️</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body{
+margin:0;
+font-family:sans-serif;
+background:#ffeef5;
+text-align:center;
+overflow-x:hidden;
+}
+
+#petals{
+position:fixed;
+top:0;
+left:0;
+z-index:-1;
+}
+
+.screen{
+display:none;
+padding:20px;
+max-width:700px;
+margin:auto;
+animation:fade 1s ease;
+}
+
+@keyframes fade{
+from{opacity:0;transform:translateY(20px)}
+to{opacity:1;transform:translateY(0)}
+}
+
+button{
+padding:12px 20px;
+margin:10px;
+border:none;
+border-radius:20px;
+background:#ff8fb1;
+color:white;
+font-size:16px;
+cursor:pointer;
+}
+
+img{
+width:90%;
+max-width:350px;
+border-radius:15px;
+margin:10px;
+}
+
+.progress{
+width:80%;
+background:#ffd6e4;
+margin:20px auto;
+height:20px;
+border-radius:10px;
+overflow:hidden;
+}
+
+.bar{
+height:100%;
+width:0%;
+background:#ff6f9f;
+}
+
+.warning{
+color:red;
+font-weight:bold;
+}
+
+.score{
+font-weight:bold;
+}
+
+#noBtn{
+position:absolute;
+}
+
+.fade-text p{
+opacity:0;
+animation:fade 1s ease forwards;
+margin-bottom:16px;
+}
+
+/* 💖 MATCH GAME GRID */
+#cards{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:12px;
+max-width:260px;
+margin:20px auto;
+}
+
+#cards button{
+font-size:26px;
+padding:20px;
+border-radius:14px;
+}
+
+footer{
+margin:40px 0;
+font-size:14px;
+opacity:0.7;
+}
+</style>
+</head>
+
+<body>
+
+<canvas id="petals"></canvas>
+
+<audio id="bgMusic" loop>
+<source src="music.mp3" type="audio/mpeg">
+</audio>
+
+<!-- LOADING -->
+<div class="screen" id="loading" style="display:block">
+<h2>Loading Memories...</h2>
+<div class="progress"><div class="bar" id="loadBar"></div></div>
+<p id="loadText"></p>
+</div>
+
+<!-- STORY -->
+<div class="screen" id="story">
+<h2>Ankita & Deb ❤️</h2>
+<p>
+Started dating July 27, 2025 ❤️<br>
+Then Ankita bravely proposed on Sept 14 😉<br><br>
+Big Spoon & Grouchy Aunty creating memories since then...
+</p>
+<button onclick="startQuiz()">Start Memory Quiz</button>
+</div>
+
+<!-- QUIZ -->
+<div class="screen" id="quiz">
+<h2>Memory Lane Quiz</h2>
+<div class="score" id="scoreText">Score: 0/6</div>
+<img id="quizImg">
+<h3 id="quizQ"></h3>
+<div id="options"></div>
+<div class="warning" id="quizWarn"></div>
+<button id="nextBtn" onclick="nextQ()" style="display:none">Next</button>
+</div>
+
+<!-- MATCH GAME -->
+<div class="screen" id="game">
+<h2>💖 Love Match Game 💖</h2>
+<p>Match all the hearts to win kisses & hugs!</p>
+<div id="cards"></div>
+</div>
+
+<!-- REWARD -->
+<div class="screen" id="reward">
+<h2>🎁 Reward Unlocked!</h2>
+<p>
+💋 Unlimited kisses<br>
+🤗 Endless cuddles<br>
+🎁 A Valentine gift waiting on 14th Feb
+</p>
+<button onclick="showValentine()">Continue ❤️</button>
+</div>
+
+<!-- VALENTINE -->
+<div class="screen" id="valentine">
+<h2>Deb, will you be my Valentine? ❤️</h2>
+<button onclick="yesAnswer()">YES ❤️</button>
+<button id="noBtn">NO 😈</button>
+<div class="warning" id="noWarn"></div>
+</div>
+
+<!-- PROPOSAL -->
+<div class="screen" id="proposal">
+<h2>Mission Pending ⚠</h2>
+<p>Deb still needs to propose properly!</p>
+
+<button onclick="acceptMission()">Accept Mission ❤️</button>
+
+<button onclick="proposalExcuse()">
+But you already proposed! What am I supposed to propose now? You’re already mine.
+</button>
+</div>
+
+<!-- ERROR -->
+<div class="screen" id="errorScreen">
+<h2>⚠ Error Detected</h2>
+<p>You want to disappoint your Honey?</p>
+<button onclick="acceptMission()">Fine 😅</button>
+</div>
+
+<!-- FINAL -->
+<div class="screen" id="final">
+<h2>Happy Valentine Week ❤️</h2>
+
+<div class="fade-text" id="letter">
+<p style="--i:1">Happy almost-Valentine’s Day, Deb.</p>
+<p style="--i:2">I’m sending this today because Valentine week starts tomorrow, and I wanted you to step into it already knowing how important you are to me.</p>
+<p style="--i:3">You know how I am — the expressive one. The one who randomly says I love you, who suddenly misses you in the middle of the day, and who starts overthinking if you don’t text for a while. My heart reacts quickly, feels deeply, and sometimes worries more than it should.</p>
+<p style="--i:4">And then there’s you — calmer, quieter with your feelings, sometimes too shy to even hold my hand in public, and often forgetting hugs and kisses when we say goodbye. You don’t always express things in words, but you never disappear either.</p>
+<p style="--i:5">You stay, you listen, you reassure me, and you try to be there in the ways that matter.</p>
+<p style="--i:6">We’ve talked about this, and I understand expressing feelings doesn’t come easily to you. You even wanted to propose properly on my birthday, but I was too impatient and proposed first.</p>
+<p style="--i:7">Sometimes I still overthink. Sometimes I wish you’d express more. But I’m learning patience.</p>
+<p style="--i:8">So I’m waiting — not with pressure, but with hope — for the day you’ll express everything in your own way.</p>
+<p style="--i:9">This is our first Valentine’s Day, and it feels like just the beginning.</p>
+<p style="--i:10"><strong>Love, Ankita ❤️</strong></p>
+</div>
+
+<h3 id="endingLine" style="opacity:0"></h3>
+<h3 id="hugLine" style="opacity:0"></h3>
+
+<footer>Made with love 💖</footer>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+<script>
+
+/* music */
+document.body.addEventListener("click",()=>{
+bgMusic.play();
+},{once:true});
+
+/* screen switch */
+function showScreen(id){
+document.querySelectorAll(".screen").forEach(s=>s.style.display="none");
+document.getElementById(id).style.display="block";
+}
+
+/* loading */
+let msgs=[
+"Loading memories with Deb…",
+"Connecting to Big Spoon server…",
+"⚠ Warning: Grouchy Aunty detected…",
+"Mood stabilizing… ❤️"
+];
+let prog=0;
+let loadInt=setInterval(()=>{
+prog+=5;
+loadBar.style.width=prog+"%";
+loadText.innerText=msgs[Math.floor(prog/25)]||"";
+if(prog>=100){
+clearInterval(loadInt);
+showScreen("story");
+}
+},150);
+
+/* quiz */
+const quizData=[
+{img:"v1.jpeg",q:"Our first selfie together. Where did we go?",options:["Majnu ka Tilla","Qutub Minar","Cafe","At his place"],correct:1},
+{img:"v2.jpeg",q:"Met after 1 month. Agenda?",options:["Spend time","Break up","Patch up","Fight"],correct:1},
+{img:"v3.jpeg",q:"Where was this taken?",options:["Delhi","Saket","Random","Noida"],correct:1},
+{img:"v4.jpeg",q:"What was the date about?",options:["Christmas","My Birthday","New Year","Random"],correct:1},
+{img:"v5.jpeg",q:"Where is this?",options:["Saket","Noida","Delhi","Gurgaon"],correct:3},
+{img:"v6.jpeg",q:"First fight about?",options:["I didn’t talk","You didn’t talk","I scolded","Grouchy Aunty mode activated"],correct:3}
+];
+
+let currentQ=0,score=0;
+
+function startQuiz(){showScreen("quiz");loadQuestion();}
+
+function loadQuestion(){
+let q=quizData[currentQ];
+quizImg.src=q.img;
+quizQ.innerText=q.q;
+quizWarn.innerText="";
+nextBtn.style.display="none";
+options.innerHTML="";
+q.options.forEach((opt,i)=>{
+let b=document.createElement("button");
+b.innerText=opt;
+b.onclick=()=>checkAnswer(i);
+options.appendChild(b);
+});
+}
+
+function checkAnswer(i){
+if(i===quizData[currentQ].correct){
+score++;
+scoreText.innerText="Score: "+score+"/6";
+quizWarn.innerText="Correct ❤️";
+nextBtn.style.display="inline-block";
+}else{
+quizWarn.innerText="Wrong answer! Try again 😜";
+}
+}
+
+function nextQ(){
+currentQ++;
+if(currentQ>=quizData.length) startGame();
+else loadQuestion();
+}
+
+/* match game */
+let symbols=["❤️","❤️","💖","💖","💘","💘"];
+let first=null,lock=false,matched=0;
+
+function startGame(){
+showScreen("game");
+cards.innerHTML="";
+symbols.sort(()=>Math.random()-0.5);
+symbols.forEach(sym=>{
+let b=document.createElement("button");
+b.innerText="❓";
+b.onclick=()=>{
+if(lock||b.innerText!=="❓")return;
+b.innerText=sym;
+if(!first){first=b;}
+else{
+lock=true;
+setTimeout(()=>{
+if(first.innerText===b.innerText){
+matched+=2;
+if(matched===symbols.length) showScreen("reward");
+}else{
+first.innerText="❓";
+b.innerText="❓";
+}
+first=null;
+lock=false;
+},700);
+}
+};
+cards.appendChild(b);
+});
+}
+
+function showValentine(){showScreen("valentine");}
+
+/* no button mischief */
+noBtn.addEventListener("mouseover",()=>{
+noBtn.style.left=Math.random()*(window.innerWidth-120)+"px";
+noBtn.style.top=Math.random()*(window.innerHeight-120)+"px";
+noWarn.innerText="⚠ Now you are stuck and you don’t have any option 😈";
+});
+
+function yesAnswer(){
+confetti({particleCount:120,spread:100,origin:{y:0.6}});
+showScreen("proposal");
+}
+
+function proposalExcuse(){showScreen("errorScreen");}
+
+function acceptMission(){
+showScreen("final");
+
+let paras=document.querySelectorAll("#letter p");
+paras.forEach((p,i)=>{
+p.style.animationDelay=(i*0.6)+"s";
+});
+
+let totalDelay=paras.length*600;
+
+setTimeout(()=>{
+endingLine.style.opacity=1;
+endingLine.innerText="Take your time, Big Spoon… I’m not going anywhere.";
+
+setTimeout(()=>{
+hugLine.style.opacity=1;
+hugLine.innerText="Now close this page… and come give your Grouchy Aunty a hug. ❤️";
+},1200);
+},totalDelay);
+}
+
+/* petals */
+const canvas=document.getElementById("petals");
+const ctx=canvas.getContext("2d");
+canvas.width=innerWidth;
+canvas.height=innerHeight;
+
+let petals=[];
+for(let i=0;i<30;i++){
+petals.push({x:Math.random()*canvas.width,y:Math.random()*canvas.height,r:5,d:1+Math.random()});
+}
+
+function drawPetals(){
+ctx.clearRect(0,0,canvas.width,canvas.height);
+ctx.fillStyle="rgba(255,120,160,0.7)";
+petals.forEach(p=>{
+ctx.beginPath();
+ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+ctx.fill();
+p.y+=p.d;
+if(p.y>canvas.height){p.y=-10;p.x=Math.random()*canvas.width;}
+});
+requestAnimationFrame(drawPetals);
+}
+drawPetals();
+
+</script>
+
+</body>
+</html>
